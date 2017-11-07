@@ -25,7 +25,21 @@ public class GeneratorTest {
 
     @Test
     public void testMillions() throws Exception {
-        System.out.println(generator.millions(12_000_001));
+        assertEquals(generator.millions(1_000_000), "en million");
+        assertEquals(generator.millions(2_000_000), "to millioner");
+        assertEquals(generator.millions(2_000_001), "to millioner og en");
+        assertEquals(generator.millions(2_000_010), "to millioner og ti");
+        assertEquals(generator.millions(12_000_000), "tolv millioner");
+        assertEquals(generator.millions(12_000_001), "tolv millioner og en");
+        assertEquals(generator.millions(12_000_010), "tolv millioner og ti");
+        assertEquals(generator.millions(12_000_100), "tolv millioner ett hundre");
+        assertEquals(generator.millions(12_001_000), "tolv millioner ett tusen");
+        assertEquals(generator.millions(12_010_000), "tolv millioner ti tusen");
+        assertEquals(generator.millions(12_100_000), "tolv millioner ett hundre tusen");
+        assertEquals(generator.millions(120_000_000), "ett hundre og tjue millioner");
+        assertEquals(generator.millions(120_000_001), "ett hundre og tjue millioner og en");
+
+        System.out.println(generator.millions(12_000_000));
     }
 
     @Test

@@ -13,6 +13,7 @@ public class Generator {
 
     public final Map<Integer, String> map = new HashMap<>();
     BiFunction<Integer, Integer, String> enett = (n, div) -> map.get(n / div).equals("en") ? "ett" : map.get(n / div);
+
     BiFunction<String, String, String> bi = (left, right) -> left.equals("null") ? "og" : left + " " + right;
     BiFunction<String, String, String> bi2 = (left, right) -> left.equals("null") ? "" : left + " " + right;
 
@@ -68,13 +69,13 @@ public class Generator {
         int base = (int) Math.pow(10, (int) Math.log10(divider));
 
         int remainder = n - (1_000_000 * divider);
-        int remainderBase = (int) Math.pow(10, Math.log10(remainder));
+        int remainderBase = (int) Math.pow(10, (int) Math.log10(remainder));
 
+        String baseString = baseString(divider, base, "");
         String ret =
-                baseString(divider, base) + " "
-                + ( divider > 1 ? map.get(1_000_001) : map.get(1_000_000) ) + " "
-                + baseString(remainder, remainderBase);
-
+                baseString + " "
+                + ( divider > 1 ? map.get(1_000_001) : map.get(1_000_000) )
+                + baseString(remainder, remainderBase, baseString);
 
         System.out.println("n: " + n);
         System.out.println("divider: " + divider);
@@ -84,14 +85,19 @@ public class Generator {
         System.out.println("remainderBase: " + base);
         System.out.println("ret: " + ret);
 
-        return ret;
+        return ret.trim();
     }
 
-    private String baseString(int divider, int base) {
-        if (base == 10) return tens(divider);
-        if (base == 100) return hundreds(divider);
-        if (base == 1_000) return thoundsands(divider);
-        if (base == 100_000) return hundreds_thoundsands(divider);
+    private String baseString(int divider, int base, String baseString) {
+        String tens = tens(divider);
+        if (!baseString.equals("")) tens = " og " + tens;
+
+        if (base == 1) return tens;
+        if (base == 10) return tens;
+        if (base == 100) return " " + hundreds(divider);
+        if (base == 1_000) return " " + thoundsands(divider);
+        if (base == 10_000) return " " + thoundsands(divider);
+        if (base == 100_000) return " " + hundreds_thoundsands(divider);
         return "";
     }
 
