@@ -43,24 +43,6 @@ public class Generator {
         map.put(100, "hundre");
     }
 
-    // 12310
-    public String convert(List<String> list, int pos, String tekst) {
-
-        if (pos == 0) return tekst;
-
-        int digit = Integer.parseInt(list.get(pos-1));
-        int ten = (int) Math.pow(10, list.size() - pos);
-
-        String alpha = ten > 0 ? map.get(ten) : "";
-        String number = map.get(digit) + " " + alpha;
-
-        System.out.printf("Digit: %s, ten: %s %s \n", digit, ten, number);
-
-        String beta = convert(list, pos - 1, number);
-
-        return beta + " " + tekst;
-    }
-
     public String millions(int n) {
         // calc divider and remainder
         int divider = n / 1_000_000;

@@ -98,17 +98,4 @@ public class GeneratorTest {
         assertEquals(generator.tens(70), "sytti");
         assertEquals(generator.tens(74), "syttifire");
     }
-
-    @Test
-    @Ignore
-    public void test() {
-        String s = "12312";
-        String x = generator.convert(toList(s), s.length(), "");
-        System.out.println("Converted: " + x);
-    }
-
-    private List<String> toList(String s) {
-        return Arrays.stream(s.split("")).collect(Collectors.toList());
-    }
-
 }
