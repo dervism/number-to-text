@@ -64,7 +64,8 @@ public class Generator {
         // calc divider and remainder
         int divider = n / 1_000_000;
 
-        // calc logarithm and 10th base
+        // calc the common logarithm (10th base)
+        // 10^exp => exp 1 = 10, 2 = 100, 3 = 1000, 4 = 100 000 etc.
         int base = (int) Math.pow(10, (int) Math.log10(divider));
 
         int remainder = n - (1_000_000 * divider);
