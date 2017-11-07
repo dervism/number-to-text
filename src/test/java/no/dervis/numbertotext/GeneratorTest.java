@@ -26,9 +26,15 @@ public class GeneratorTest {
     @Test
     public void testMillions() throws Exception {
         assertEquals(generator.millions(1_000_000), "en million");
+        assertEquals(generator.millions(1_250_300), "en million to hundre og femti tusen tre hundre");
+        assertEquals(generator.millions(1_250_301), "en million to hundre og femti tusen tre hundre og en");
+        assertEquals(generator.millions(1_250_315), "en million to hundre og femti tusen tre hundre og femten");
+        assertEquals(generator.millions(1_851_815), "en million åtte hundre og femtien tusen åtte hundre og femten");
         assertEquals(generator.millions(2_000_000), "to millioner");
         assertEquals(generator.millions(2_000_001), "to millioner og en");
         assertEquals(generator.millions(2_000_010), "to millioner og ti");
+        assertEquals(generator.millions(2_000_011), "to millioner og ellve");
+        assertEquals(generator.millions(2_000_021), "to millioner og tjueen");
         assertEquals(generator.millions(12_000_000), "tolv millioner");
         assertEquals(generator.millions(12_000_001), "tolv millioner og en");
         assertEquals(generator.millions(12_000_010), "tolv millioner og ti");
@@ -38,6 +44,10 @@ public class GeneratorTest {
         assertEquals(generator.millions(12_100_000), "tolv millioner ett hundre tusen");
         assertEquals(generator.millions(120_000_000), "ett hundre og tjue millioner");
         assertEquals(generator.millions(120_000_001), "ett hundre og tjue millioner og en");
+        assertEquals(generator.millions(999_000_001), "ni hundre og nittini millioner og en");
+
+        // Integer.MAX_VALUE
+        assertEquals(generator.millions(2146_999_999), "to tusen ett hundre og førtiseks millioner ni hundre og nittini tusen ni hundre og nittini");
 
         System.out.println(generator.millions(12_000_000));
     }
@@ -89,6 +99,7 @@ public class GeneratorTest {
 
     @Test
     public void testTens() throws Exception {
+        assertEquals(generator.tens(0), "null");
         assertEquals(generator.tens(1), "en");
         assertEquals(generator.tens(2), "to");
         assertEquals(generator.tens(12), "tolv");
@@ -98,4 +109,5 @@ public class GeneratorTest {
         assertEquals(generator.tens(70), "sytti");
         assertEquals(generator.tens(74), "syttifire");
     }
+
 }
