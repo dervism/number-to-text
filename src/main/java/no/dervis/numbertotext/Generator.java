@@ -1,14 +1,8 @@
 package no.dervis.numbertotext;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 
-/**
- *
- * Created by dervis on 04/04/2017.
- */
 public class Generator {
 
     public final Map<Integer, String> map = Norwegian.getLanguageMap();
@@ -77,7 +71,6 @@ public class Generator {
     }
 
     public String thoundsands(int n) {
-        //if (n == 0) return "";
         if (n % 1000 == 0) return enett(n, 1000) + " " + map.get(1000);
         return bi2.apply(enett(n, 1000), map.get(1000)) + " " + hundreds(n % 1000);
     }
@@ -89,7 +82,6 @@ public class Generator {
     }
 
     public String tens(int n) {
-        //if (n == 0) return "";
         if (n <= 20 || map.containsKey(n)) return map.get(n);
         return map.get(10 * (n / 10)) + map.get(n % 10);
     }
