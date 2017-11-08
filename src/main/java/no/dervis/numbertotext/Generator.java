@@ -49,7 +49,7 @@ public class Generator {
 
     private String baseString(int divider, int base, String baseString) {
         String tens = tens(divider);
-        if (!baseString.equals("")) tens = SPACE + OG + SPACE + tens;
+        if (!baseString.equals(NONE)) tens = SPACE + OG + SPACE + tens;
 
         if (base == 1) return tens;
         if (base == 10) return tens;
@@ -57,7 +57,7 @@ public class Generator {
         if (base == 1_000) return SPACE + thoundsands(divider);
         if (base == 10_000) return SPACE + thoundsands(divider);
         if (base == 100_000) return SPACE + hundreds_thoundsands(divider);
-        return "";
+        return NONE;
     }
 
     public String hundreds_thoundsands(int n) {
