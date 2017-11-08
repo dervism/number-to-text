@@ -8,7 +8,7 @@ public class Generator {
 
     public final Map<Integer, String> map = Norwegian.getLanguageMap();
 
-    TriFunction<String, String, String, String> og =
+    TriFunction<String, String, String, String> and =
             (left, right, combiner) -> left.equals(map.get(0)) ? combiner : left + SPACE + right;
 
     public String convert(int number) {
@@ -68,13 +68,13 @@ public class Generator {
 
     public String thoundsands(int n) {
         if (n % 1000 == 0) return enett(n, 1000) + SPACE + map.get(1000);
-        return og.apply(enett(n, 1000), map.get(1000), NONE) + SPACE + hundreds(n % 1000);
+        return and.apply(enett(n, 1000), map.get(1000), NONE) + SPACE + hundreds(n % 1000);
     }
 
     public String hundreds(int n) {
         if (n == 0) return "";
         if (n % 100 == 0) return enett(n, 100) + SPACE + map.get(100);
-        return og.apply(enett(n, 100), map.get(100) + PADDING, OG) + SPACE + tens(n % 100);
+        return and.apply(enett(n, 100), map.get(100) + PADDING, OG) + SPACE + tens(n % 100);
     }
 
     public String tens(int n) {
