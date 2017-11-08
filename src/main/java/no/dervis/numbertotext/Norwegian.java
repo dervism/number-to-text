@@ -56,6 +56,7 @@ public class Norwegian {
     }
 
     public static String enett(int n, int div) {
-        return map.get(n / div).equals(EN) ? Norwegian.ETT : map.get(n / div);
+        String en = map.get(n / div);
+        return en.equals(EN) ? Norwegian.ETT : en;
     }
 }
