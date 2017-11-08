@@ -11,36 +11,30 @@ import java.util.function.BiFunction;
  */
 public class Generator {
 
-    public final Map<Integer, String> map = new HashMap<>();
-    BiFunction<Integer, Integer, String> enett = (n, div) -> map.get(n / div).equals("en") ? "ett" : map.get(n / div);
+    public final Map<Integer, String> map = Norwegian.getLanguageMap();
 
     BiFunction<String, String, String> bi = (left, right) -> left.equals("null") ? "og" : left + " " + right;
     BiFunction<String, String, String> bi2 = (left, right) -> left.equals("null") ? "" : left + " " + right;
 
-    public Generator() {
-        map.put(0, "null");
-        map.put(1, "en"); map.put(11, "ellve");
-        map.put(2, "to"); map.put(12, "tolv");
-        map.put(3, "tre"); map.put(13, "tretten");
-        map.put(4, "fire"); map.put(14, "fjorten");
-        map.put(5, "fem"); map.put(15, "femten");
-        map.put(6, "seks"); map.put(16, "seksten");
-        map.put(7, "syv"); map.put(17, "sytten");
-        map.put(8, "åtte"); map.put(18, "atten");
-        map.put(9, "ni"); map.put(19, "nitten");
+    public Generator() { }
 
-        map.put(10, "ti"); map.put(20, "tjue"); map.put(30, "tretti"); map.put(40, "førti");
-        map.put(50, "femti"); map.put(60, "seksti") ;map.put(70, "sytti"); map.put(80, "åtti");
-        map.put(90, "nitti");
+    public String convert(int number) {
 
-        map.put(1_000_000_001, "milliarder");
-        map.put(1_000_000_000, "milliard");
-        map.put(1_000_001, "millioner");
-        map.put(1_000_000, "million");
-        map.put(100_000, "hundre tusen");
-        map.put(10_000, "tusen");
-        map.put(1_000, "tusen");
-        map.put(100, "hundre");
+        int base = (int) Math.pow(10, (int) Math.log10(number));
+        System.out.println("base" + base + ", n = " + number);
+
+        if (base == 1) return tens(number);
+        if (base == 10) return tens(number);
+        if (base == 100) return hundreds(number);
+        if (base == 1_000) return thoundsands(number);
+        if (base == 10_000) return thoundsands(number);
+        if (base == 100_000) return hundreds_thoundsands(number);
+        if (base == 1_000_000) return millions(number);
+        if (base == 10_000_000) return millions(number);
+        if (base == 100_000_000) return millions(number);
+        if (base == 1_000_000_000) return millions(number);
+
+        return "";
     }
 
     public String millions(int n) {
@@ -59,14 +53,6 @@ public class Generator {
                 baseString + " "
                 + ( divider > 1 ? map.get(1_000_001) : map.get(1_000_000) )
                 + baseString(remainder, remainderBase, baseString);
-
-        System.out.println("n: " + n);
-        System.out.println("divider: " + divider);
-        System.out.println("remainder: " + remainder);
-        System.out.println("exp: " + Math.log10(divider));
-        System.out.println("base: " + base);
-        System.out.println("remainderBase: " + base);
-        System.out.println("ret: " + ret);
 
         return ret.trim();
     }
@@ -92,20 +78,24 @@ public class Generator {
 
     public String thoundsands(int n) {
         //if (n == 0) return "";
-        if (n % 1000 == 0) return enett.apply(n, 1000) + " " + map.get(1000);
-        return bi2.apply(enett.apply(n, 1000), map.get(1000)) + " " + hundreds(n % 1000);
+        if (n % 1000 == 0) return enett(n, 1000) + " " + map.get(1000);
+        return bi2.apply(enett(n, 1000), map.get(1000)) + " " + hundreds(n % 1000);
     }
 
     public String hundreds(int n) {
         if (n == 0) return "";
-        if (n % 100 == 0) return enett.apply(n, 100) + " " + map.get(100);
-        return bi.apply(enett.apply(n, 100), map.get(100) + " og") + " " + tens(n % 100);
+        if (n % 100 == 0) return enett(n, 100) + " " + map.get(100);
+        return bi.apply(enett(n, 100), map.get(100) + " og") + " " + tens(n % 100);
     }
 
     public String tens(int n) {
         //if (n == 0) return "";
         if (n <= 20 || map.containsKey(n)) return map.get(n);
         return map.get(10 * (n / 10)) + map.get(n % 10);
+    }
+
+    public String enett(int n, int div) {
+        return map.get(n / div).equals("en") ? "ett" : map.get(n / div);
     }
 
 }
