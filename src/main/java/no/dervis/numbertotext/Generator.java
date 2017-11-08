@@ -26,7 +26,7 @@ public class Generator {
         if (base == 100_000_000) return millions(number);
         if (base == 1_000_000_000) return millions(number);
 
-        return "";
+        return NONE;
     }
 
     public String millions(int n) {
