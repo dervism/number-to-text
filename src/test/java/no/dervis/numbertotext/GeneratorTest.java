@@ -10,10 +10,6 @@ import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
-/**
- *
- * Created by dervis on 01/05/2017.
- */
 public class GeneratorTest {
 
     private Generator generator;
