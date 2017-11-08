@@ -67,8 +67,8 @@ public class Generator {
     }
 
     public String thoundsands(int n) {
-        if (n % 1000 == 0) return enett(n, 1000) + SPACE + map.get(1000);
-        return and.apply(enett(n, 1000), map.get(1000), NONE) + SPACE + hundreds(n % 1000);
+        if (n % 1000 == 0) return enett(n, 1_000) + SPACE + map.get(1_000);
+        return and.apply(enett(n, 1_000), map.get(1_000), NONE) + SPACE + hundreds(n % 1_000);
     }
 
     public String hundreds(int n) {
