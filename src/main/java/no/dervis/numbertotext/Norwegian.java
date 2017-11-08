@@ -5,8 +5,15 @@ import java.util.Map;
 
 public class Norwegian {
 
+    public static final Map<Integer, String> map = new HashMap<>();
+    public static final String EN = "en";
+    public static final String ETT = "ett";
+    public static final String OG = "og";
+    public static final String SPACE = " ";
+    public static final String PADDING = SPACE + OG;
+    public static final String NONE = "";
+
     public static Map<Integer, String> getLanguageMap() {
-        Map<Integer, String> map = new HashMap<>();
         map.put(0, "null");
         map.put(1, "en");
         map.put(11, "ellve");
@@ -46,5 +53,9 @@ public class Norwegian {
         map.put(1_000, "tusen");
         map.put(100, "hundre");
         return map;
+    }
+
+    public static String enett(int n, int div) {
+        return map.get(n / div).equals(EN) ? Norwegian.ETT : map.get(n / div);
     }
 }
