@@ -86,6 +86,21 @@ public class GeneratorTest {
     }
 
     @Test
+    public void testTensThousands() {
+        assertEquals(generator.convert(10_000), "ti tusen");
+        assertEquals(generator.convert(10_001), "ti tusen og en");
+        assertEquals(generator.convert(10_101), "ti tusen ett hundre og en");
+        assertEquals(generator.convert(20_000), "tjue tusen");
+        assertEquals(generator.convert(20_100), "tjue tusen ett hundre");
+        assertEquals(generator.convert(20_001), "tjue tusen og en");
+        assertEquals(generator.convert(24_679), "tjuefire tusen seks hundre og syttini");
+        assertEquals(generator.convert(64_234), "sekstifire tusen to hundre og trettifire");
+        assertEquals(generator.convert(99_000), "nittini tusen");
+        assertEquals(generator.convert(99_001), "nittini tusen og en");
+        assertEquals(generator.convert(99_010), "nittini tusen og ti");
+    }
+
+    @Test
     public void testThoundsands() throws Exception {
         assertEquals(generator.thoundsands(1000), "ett tusen");
         assertEquals(generator.convert(1000), "ett tusen");

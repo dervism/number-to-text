@@ -1,6 +1,7 @@
 package no.dervis.numbertotext;
 
 import java.util.Map;
+import java.util.function.BiFunction;
 
 import static no.dervis.numbertotext.Norwegian.*;
 
@@ -8,7 +9,9 @@ public class Generator {
 
     public final Map<Integer, String> map = Norwegian.getLanguageMap();
 
-    TriFunction<String, String, String, String> and =
+    private BiFunction<String, String, String> trim = (left, right) -> right.isEmpty() ? NONE : left + right;
+
+    private TriFunction<String, String, String, String> and =
             (left, right, combiner) -> left.equals(map.get(0)) ? combiner : left + SPACE + right;
 
     public String convert(int number) {
@@ -19,7 +22,7 @@ public class Generator {
         if (base == 10) return tens(number);
         if (base == 100) return hundreds(number);
         if (base == 1_000) return thoundsands(number);
-        if (base == 10_000) return thoundsands(number);
+        if (base == 10_000) return tenthousands(number);
         if (base == 100_000) return hundreds_thoundsands(number);
         if (base == 1_000_000) return millions(number);
         if (base == 10_000_000) return millions(number);
@@ -55,7 +58,7 @@ public class Generator {
         if (base == 10) return tens;
         if (base == 100) return SPACE + hundreds(divider);
         if (base == 1_000) return SPACE + thoundsands(divider);
-        if (base == 10_000) return SPACE + thoundsands(divider);
+        if (base == 10_000) return SPACE + tenthousands(divider);
         if (base == 100_000) return SPACE + hundreds_thoundsands(divider);
         return NONE;
     }
@@ -63,12 +66,17 @@ public class Generator {
     public String hundreds_thoundsands(int n) {
         int divider = n / 1000;
         String hundreds = hundreds(n - (divider * 1_000));
-        return hundreds(divider) + SPACE + map.get(1_000) + (!hundreds.isEmpty() ? SPACE : NONE) + hundreds;
+        return hundreds(divider) + SPACE + map.get(1_000) + trim.apply(SPACE, hundreds);
+    }
+
+    public String tenthousands(int n) {
+        if (n % 10_000 == 0) return tens(n / 1_000) + SPACE + map.get(1_000);
+        return and.apply(tens(n / 1_000), map.get(1_000), NONE) + trim.apply( SPACE, hundreds(n % 1_000));
     }
 
     public String thoundsands(int n) {
         if (n % 1000 == 0) return enett(n, 1_000) + SPACE + map.get(1_000);
-        return and.apply(enett(n, 1_000), map.get(1_000), NONE) + SPACE + hundreds(n % 1_000);
+        return and.apply(enett(n, 1_000), map.get(1_000), NONE) + trim.apply(SPACE, hundreds(n % 1_000));
     }
 
     public String hundreds(int n) {
